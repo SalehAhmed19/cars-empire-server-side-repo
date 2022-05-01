@@ -1,6 +1,6 @@
 // Zv3pa1mUsCSHyVCe
 // carsEmpire
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 4000;
@@ -25,6 +25,12 @@ async function run() {
       const cursor = carsCollection.find(query);
       const cars = await cursor.toArray();
       res.send(cars);
+    });
+    app.get("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const car = await carsCollection.findOne(query);
+      res.send(car);
     });
   } finally {
   }
