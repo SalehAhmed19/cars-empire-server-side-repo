@@ -38,6 +38,11 @@ async function run() {
       const result = await carsCollection.deleteOne(query);
       res.send(result);
     });
+    app.post("/cars", async (req, res) => {
+      const newCar = req.body;
+      const result = await carsCollection.insertOne(newCar);
+      res.send(result);
+    });
   } finally {
   }
 }
