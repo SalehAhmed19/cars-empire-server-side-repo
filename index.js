@@ -43,6 +43,19 @@ async function run() {
       const result = await carsCollection.insertOne(newCar);
       res.send(result);
     });
+    app.put("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateCar = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const update = {
+        $set: {
+          quantity: updateCar.quantity,
+        },
+      };
+      const result = await carsCollection.updateOne(filter, update, options);
+      res.send(result);
+    });
   } finally {
   }
 }
