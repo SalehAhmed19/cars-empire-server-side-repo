@@ -20,6 +20,7 @@ async function run() {
   try {
     await client.connect();
     const carsCollection = client.db("carsEmpire").collection("cars");
+    const myItemCollection = client.db("carsEmpire").collection("my-items");
     app.get("/cars", async (req, res) => {
       const query = {};
       const cursor = carsCollection.find(query);
@@ -41,6 +42,11 @@ async function run() {
     app.post("/cars", async (req, res) => {
       const newCar = req.body;
       const result = await carsCollection.insertOne(newCar);
+      res.send(result);
+    });
+    app.post("/my-items", async (req, res) => {
+      const newItem = req.body;
+      const result = await myItemCollection.insertOne(newItem);
       res.send(result);
     });
     app.put("/cars/:id", async (req, res) => {
