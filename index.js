@@ -22,34 +22,40 @@ async function run() {
     await client.connect();
     const carsCollection = client.db("carsEmpire").collection("cars");
     const myItemCollection = client.db("carsEmpire").collection("my-items");
+    /* all cars API */
     app.get("/cars", async (req, res) => {
       const query = {};
       const cursor = carsCollection.find(query);
       const cars = await cursor.toArray();
       res.send(cars);
     });
+    /* single car API */
     app.get("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const car = await carsCollection.findOne(query);
       res.send(car);
     });
+    /* single car delete API */
     app.delete("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await carsCollection.deleteOne(query);
       res.send(result);
     });
+    /* new car insert API */
     app.post("/cars", async (req, res) => {
       const newCar = req.body;
       const result = await carsCollection.insertOne(newCar);
       res.send(result);
     });
+    /* my items API */
     app.post("/my-items", async (req, res) => {
       const newItem = req.body;
       const result = await myItemCollection.insertOne(newItem);
       res.send(result);
     });
+    /* my items get API */
     app.get("/my-items", async (req, res) => {
       const email = req.query.email;
       console.log(email);
@@ -58,6 +64,7 @@ async function run() {
       const myItems = await cursor.toArray();
       res.send(myItems);
     });
+    /* item quantity update API */
     app.put("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const updateCar = req.body;
@@ -71,12 +78,14 @@ async function run() {
       const result = await carsCollection.updateOne(filter, update, options);
       res.send(result);
     });
+    /* item delete API from my items */
     app.delete("/my-items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await myItemCollection.deleteOne(query);
       res.send(result);
     });
+    /* specific user access token API */
     app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
