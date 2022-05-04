@@ -58,12 +58,6 @@ async function run() {
       const myItems = await cursor.toArray();
       res.send(myItems);
     });
-    app.delete("/my-items/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const result = await myItemCollection.deleteOne(query);
-      res.send(result);
-    });
     app.put("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const updateCar = req.body;
