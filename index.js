@@ -49,6 +49,12 @@ async function run() {
       const result = await myItemCollection.insertOne(newItem);
       res.send(result);
     });
+    app.get("my-items", async (req, res) => {
+      const query = {};
+      const cursor = myItemCollection.find(query);
+      const myItems = await cursor.toArray();
+      res.send(myItems);
+    });
     app.put("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const updateCar = req.body;
