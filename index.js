@@ -49,7 +49,7 @@ async function run() {
       const result = await myItemCollection.insertOne(newItem);
       res.send(result);
     });
-    app.get("my-items", async (req, res) => {
+    app.get("/my-items", async (req, res) => {
       const query = {};
       const cursor = myItemCollection.find(query);
       const myItems = await cursor.toArray();
