@@ -75,7 +75,6 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await myItemCollection.deleteOne(query);
-      const result2 = await carsCollection.deleteOne(query);
       res.send(result);
     });
     app.post("/login", async (req, res) => {
