@@ -71,7 +71,12 @@ async function run() {
       const result = await carsCollection.updateOne(filter, update, options);
       res.send(result);
     });
-
+    app.delete("/my-items/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await myItemCollection.deleteOne(query);
+      res.send(result);
+    });
     app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
