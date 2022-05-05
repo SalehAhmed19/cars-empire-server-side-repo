@@ -15,7 +15,7 @@ app.use(express.json());
 function verifyJwt(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return status(401).send({ massage: "unauthorized access" });
+    return res.status(401).send({ massage: "unauthorized access" });
   }
   console.log(authHeader);
   next();
