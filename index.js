@@ -83,7 +83,8 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await myItemCollection.deleteOne(query);
-      res.send(result);
+      const result2 = await carsCollection.deleteOne(query);
+      res.send(result, result2);
     });
     /* specific user access token API */
     app.post("/login", async (req, res) => {
