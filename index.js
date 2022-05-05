@@ -17,7 +17,13 @@ function verifyJwt(req, res, next) {
   if (!authHeader) {
     return res.status(401).send({ massage: "unauthorized access" });
   }
-  console.log(authHeader);
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).send({ message: "Forbidden access" });
+    }
+    req.decoded = decoded;
+  });
   next();
 }
 
@@ -68,11 +74,16 @@ async function run() {
     /* my items get API */
     app.get("/my-items", verifyJwt, async (req, res) => {
       const email = req.query.email;
+      const decodedEmail = req.decoded.email;
       console.log(email);
-      const query = { email: email };
-      const cursor = myItemCollection.find(query);
-      const myItems = await cursor.toArray();
-      res.send(myItems);
+      if (email === decodedEmail) {
+        const query = { email: email };
+        const cursor = myItemCollection.find(query);
+        const myItems = await cursor.toArray();
+        res.send(myItems);
+      } else {
+        res.status(403).send({ message: "Forbidden access" });
+      }
     });
     /* item quantity update API */
     app.put("/cars/:id", async (req, res) => {
