@@ -4,12 +4,22 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const { send } = require("express/lib/response");
 const port = process.env.PORT || 4000;
 const app = express();
 require("dotenv").config();
 // middleware
 app.use(cors());
 app.use(express.json());
+
+function verifyJwt(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return status(401).send({ massage: "unauthorized access" });
+  }
+  console.log(authHeader);
+  next();
+}
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rzir2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
@@ -56,7 +66,7 @@ async function run() {
       res.send(result);
     });
     /* my items get API */
-    app.get("/my-items", async (req, res) => {
+    app.get("/my-items", verifyJwt, async (req, res) => {
       const email = req.query.email;
       console.log(email);
       const query = { email: email };
