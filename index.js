@@ -78,7 +78,7 @@ async function run() {
       console.log(email);
       if (email === decodedEmail) {
         const query = { email: email };
-        const cursor = myItemCollection.find(query);
+        const cursor = carsCollection.find(query);
         const myItems = await cursor.toArray();
         res.send(myItems);
       } else {
