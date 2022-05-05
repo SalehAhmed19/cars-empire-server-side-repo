@@ -82,7 +82,7 @@ async function run() {
         const myItems = await cursor.toArray();
         res.send(myItems);
       } else {
-        res.status(403).send({ message: "Forbidden access" });
+        res.status(403).send({ message: "Forbidden Access" });
       }
     });
     /* item quantity update API */
