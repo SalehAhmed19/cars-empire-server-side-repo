@@ -66,11 +66,11 @@ async function run() {
       res.send(result);
     });
     /* my items API */
-    app.post("/my-items", async (req, res) => {
-      const newItem = req.body;
-      const result = await carsCollection.insertOne(newItem);
-      res.send(result);
-    });
+    // app.post("/my-items", async (req, res) => {
+    //   const newItem = req.body;
+    //   const result = await carsCollection.insertOne(newItem);
+    //   res.send(result);
+    // });
     /* my items get API */
     app.get("/my-items", verifyJwt, async (req, res) => {
       const email = req.query.email;
