@@ -110,7 +110,7 @@ async function run() {
       res.send(accessToken);
     });
   } finally {
-    //
+    // code
   }
 }
 run().catch(console.dir);
