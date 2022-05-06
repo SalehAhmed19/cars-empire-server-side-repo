@@ -37,7 +37,7 @@ async function run() {
   try {
     await client.connect();
     const carsCollection = client.db("carsEmpire").collection("cars");
-    const myItemCollection = client.db("carsEmpire").collection("my-items");
+    // const myItemCollection = client.db("carsEmpire").collection("my-items");
     /* all cars API */
     app.get("/cars", async (req, res) => {
       const query = {};
@@ -68,7 +68,7 @@ async function run() {
     /* my items API */
     app.post("/my-items", async (req, res) => {
       const newItem = req.body;
-      const result = await myItemCollection.insertOne(newItem);
+      const result = await carsCollection.insertOne(newItem);
       res.send(result);
     });
     /* my items get API */
@@ -78,7 +78,7 @@ async function run() {
       console.log(email);
       if (email === decodedEmail) {
         const query = { email: email };
-        const cursor = myItemCollection.find(query);
+        const cursor = carsCollection.find(query);
         const myItems = await cursor.toArray();
         res.send(myItems);
       } else {
@@ -103,7 +103,7 @@ async function run() {
     app.delete("/my-items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      const result = await myItemCollection.deleteOne(query);
+      const result = await carsCollection.deleteOne(query);
       res.send(result);
     });
     /* specific user access token API */
