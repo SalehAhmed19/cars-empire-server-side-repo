@@ -37,7 +37,6 @@ async function run() {
   try {
     await client.connect();
     const carsCollection = client.db("carsEmpire").collection("cars");
-    // const myItemCollection = client.db("carsEmpire").collection("my-items");
     /* all cars API */
     app.get("/cars", async (req, res) => {
       const query = {};
